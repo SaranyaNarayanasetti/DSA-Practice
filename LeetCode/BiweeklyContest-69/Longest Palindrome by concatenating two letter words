@@ -1,0 +1,60 @@
+class Solution {
+    public int longestPalindrome(String[] words) {
+        HashMap<String,Integer> hm=new HashMap<String,Integer>();
+        for(int i=0;i<words.length;i++)
+        {
+            if(hm.get(words[i])==null)
+                hm.put(words[i],1);
+            else
+                hm.put(words[i],hm.get(words[i])+1);
+            
+        }
+        int count=0;
+       for(Map.Entry<String,Integer> entry: hm.entrySet())
+       {
+           String key=entry.getKey();
+           String rev=String.valueOf(key.charAt(1))+String.valueOf(key.charAt(0));
+           int val=(int)entry.getValue();
+           if(hm.get(rev)!=null)
+           {
+           if(key.equals(rev))
+           {
+               if((val&1)==0)
+               {
+                   count+=val;
+                   hm.put(key,0);
+               }
+               else
+               {
+                   count+=val-1;
+                   hm.put(key,1);
+               }
+           }
+           
+           else
+           {
+               count+=Math.min(hm.get(key),hm.get(rev))*2;
+               hm.put(key,0);
+               hm.put(rev,0);
+           }
+           }
+       }
+         count=count*2 ;
+          int max=0;
+      
+        
+          for (Map.Entry me1 : hm.entrySet()) {
+            String key = (String)me1.getKey();
+            String rev=String.valueOf(key.charAt(1))+String.valueOf(key.charAt(0)); 
+            int value = ((int)me1.getValue());
+  
+              if(key.equals(rev))
+              {
+                  if(value>max)
+                      max=value;
+              }
+        } 
+        count+=(max*2);
+        return count;
+    }
+}
